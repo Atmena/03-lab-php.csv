@@ -31,11 +31,24 @@ if (isset($_POST['generateCsv'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Génération de fichier CSV</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 </head>
 <body>
-    <h1>Génération de fichier CSV</h1>
-    <form method="post" action="">
-        <input type="submit" name="generateCsv" value="Générer le fichier CSV">
-    </form>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h1 class="card-title text-center">Génération de fichier CSV</h1>
+                        <form method="post" action="">
+                            <div class="text-center">
+                                <button type="submit" name="generateCsv" class="btn btn-primary">Générer le fichier CSV</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
