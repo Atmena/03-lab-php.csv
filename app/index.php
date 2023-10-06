@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             ?>
         </div>
     </div>
-
+    <div id="downloadLinkContainer" style="display: none;"></div>
     <input type="file" id="csvFileHidden" style="display: none;">
 </body>
 </html>

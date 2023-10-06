@@ -51,13 +51,13 @@ class MainPage {
             <div class="col-md-12">
                 <form action="classes/DownloadCsv.php" method="post">
                     <input type="hidden" name="csvFileName" value="' . $fileName . '">
-                    <button type="submit" class="btn btn-primary">Télécharger le CSV</button>
+                    <button type="submit" name="applyFilters" class="btn btn-primary">Télécharger le CSV</button>
                 </form>
             </div>
         </div>';
     
         echo '</div>';
-    }
+    }    
 
     public function processFileUpload() {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
