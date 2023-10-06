@@ -1,7 +1,7 @@
 <?php
-require_once('classes/CsvFilterPage.php');
+require_once('classes/MainPage.php');
 
-$page = new CsvFilterPage();
+$page = new MainPage();
 
 $headers = [];
 
@@ -12,6 +12,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $csvContent = $_SESSION['csvContent'];
         $lines = explode("\n", $csvContent);
         $headers = explode(",", $lines[0]);
+
+        // Extrayez le nom du fichier du chemin du fichier
+        $csvFileName = basename($_FILES['csvFile']['name']);
     }
 }
 ?>
@@ -33,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div id="filtersContainer" class="container mt-4 flex-column">
             <?php
             if (!empty($headers)) {
-                $page->generateFilters($headers);
+                $page->generateFilters($headers, $csvFileName);
             }
             ?>
         </div>
