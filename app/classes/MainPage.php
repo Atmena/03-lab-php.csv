@@ -25,12 +25,15 @@ class MainPage {
         
         // Affichez le nom du fichier
         echo '<div class="row mb-3"><div class="col-md-12"><h4>Nom du fichier : ' . $fileName . '</h4></div></div>';
-        
+    
+        // Ouverture du formulaire
+        echo '<form action="index.php" method="post">';
+    
         foreach ($headers as $header) {
             echo '<div class="row mb-3">
                 <div class="col-md-6">
-                    <input type="checkbox" id="checkFilter' . $header . '" name="checkFilters[]" value="' . $header . '">
-                    <label for="checkFilter' . $header . '">' . $header . ' :</label>
+                    <input type="checkbox" id="checkFilter' . $header . '" name="applyFilters[' . $header . ']" value="1">
+                    <label for="checkFilter' . $header . '">' . $header . ' :</label>    
                 </div>
                 <div class="col-md-3">
                     <select class="form-control" id="filterType' . $header . '" name="filterTypes[]">
@@ -51,15 +54,15 @@ class MainPage {
         // Ajoutez le bouton de téléchargement
         echo '<div class="row">
             <div class="col-md-12">
-                <form action="index.php" method="post">
-                    <input type="hidden" name="csvFileName" value="' . $fileName . '">
-                    <button type="submit" class="btn btn-primary" name="applyFilters">Télécharger le CSV</button>
-                </form>
+                <input type="hidden" name="csvFileName" value="' . $fileName . '">
+                <button type="submit" class="btn btn-primary" name="applyFilters">Télécharger le CSV</button>
             </div>
         </div>';
-    
-        echo '</div>';
-    }    
+
+        // Fermeture du formulaire
+        echo '</form>
+            </div>';
+    }        
 
     public function processFileUpload() {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -101,8 +104,8 @@ class MainPage {
             $downloadCsv = new DownloadCsv();
         
             // Appel de la méthode pour traiter le téléchargement
-            $result = $downloadCsv->processDownload($csvFileName);
-        
+            $result = $downloadCsv->processDownload($csvFileName, array('success' => true, 'error' => ''));
+            
             if ($result['success']) {
                 // Redirigez ou affichez un message de succès, par exemple
                 header('Location: index.php?success=1');
@@ -110,6 +113,6 @@ class MainPage {
                 echo 'Erreur : ' . $result['error'];
             }
         }
-    }
+    }    
 }
 ?>
