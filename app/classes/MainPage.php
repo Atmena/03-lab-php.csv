@@ -29,8 +29,8 @@ class MainPage {
         foreach ($headers as $header) {
             echo '<div class="row mb-3">
                 <div class="col-md-6">
-                    <input type="checkbox" id="filter' . $header . '" name="filters[]" value="' . $header . '">
-                    <label for="filter' . $header . '">' . $header . ' :</label>
+                    <input type="checkbox" id="checkFilter' . $header . '" name="checkFilters[]" value="' . $header . '">
+                    <label for="checkFilter' . $header . '">' . $header . ' :</label>
                 </div>
                 <div class="col-md-3">
                     <select class="form-control" id="filterType' . $header . '" name="filterTypes[]">
