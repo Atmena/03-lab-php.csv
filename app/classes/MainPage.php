@@ -1,12 +1,14 @@
 <?php
+require_once('DownloadCsv.php');
+
 class MainPage {
     public function generateFileUploadForm() {
-        echo '<form id="csvForm" enctype="multipart/form-data" action="index.php" method="post">
+        echo '<form id="csvForm" enctype="multipart/form-data" action="index.php" method="POST">
             <div class="form-group">
                 <label for="csvFile">Déposer un fichier CSV :</label>
                 <input type="file" class="form-control" id="csvFile" name="csvFile" accept=".csv" required onchange="loadCSV()">
             </div>
-            <button type="submit" class="btn btn-primary">Générer le fichier</button>
+            <button type="submit" class="btn btn-primary" name="uploadCsv">Générer le fichier</button>
         </form>';
     
         // Ajoutez la fonction loadCSV() ici
@@ -49,9 +51,9 @@ class MainPage {
         // Ajoutez le bouton de téléchargement
         echo '<div class="row">
             <div class="col-md-12">
-                <form action="classes/DownloadCsv.php" method="post">
+                <form action="index.php" method="post">
                     <input type="hidden" name="csvFileName" value="' . $fileName . '">
-                    <button type="submit" name="applyFilters" class="btn btn-primary">Télécharger le CSV</button>
+                    <button type="submit" class="btn btn-primary" name="applyFilters">Télécharger le CSV</button>
                 </form>
             </div>
         </div>';
@@ -63,22 +65,23 @@ class MainPage {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (isset($_FILES['csvFile']) && $_FILES['csvFile']['error'] === UPLOAD_ERR_OK) {
                 $tmpFileName = $_FILES['csvFile']['tmp_name'];
-    
+        
                 if (mime_content_type($tmpFileName) == 'text/csv') {
                     $csvContent = file_get_contents($tmpFileName);
-    
+        
                     session_start();
                     $_SESSION['csvContent'] = $csvContent;
-    
+        
                     $uploadDir = 'uploads/';
                     $originalFileName = $_FILES['csvFile']['name'];
                     $uploadPath = $uploadDir . $originalFileName;
-    
+        
                     if (!is_dir($uploadDir)) {
                         mkdir($uploadDir, 0755, true);
                     }
-    
+        
                     if (move_uploaded_file($tmpFileName, $uploadPath)) {
+                        return $originalFileName; // Retournez le nom du fichier téléchargé
                     } else {
                         echo "Erreur lors du chargement du fichier.";
                     }
@@ -87,6 +90,24 @@ class MainPage {
                 }
             } else {
                 echo "Aucun fichier n'a été téléchargé.";
+            }
+        }
+        return false;
+    }
+
+    public function loadDownload($csvFileName) {
+        if ($csvFileName) {
+            // Créez une instance de DownloadCsv
+            $downloadCsv = new DownloadCsv();
+        
+            // Appel de la méthode pour traiter le téléchargement
+            $result = $downloadCsv->processDownload($csvFileName);
+        
+            if ($result['success']) {
+                // Redirigez ou affichez un message de succès, par exemple
+                header('Location: index.php?success=1');
+            } else {
+                echo 'Erreur : ' . $result['error'];
             }
         }
     }

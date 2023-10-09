@@ -3,26 +3,30 @@ require_once('CsvFilter.php');
 
 class DownloadCsv {
     public function processDownload($csvFileName) {
-        if (isset($_POST['applyFilters']) && isset($csvFileName)) {
-            $csvContent = file_get_contents('../uploads/' . $csvFileName);
+    if (isset($_POST['applyFilters']) && isset($csvFileName)) {
 
-            // Appliquer les filtres
-            $filteredContent = CsvFilter::applyFilters($csvContent);
+        $csvContent = file_get_contents('uploads/' . $csvFileName);
 
-            // Modifiez la ligne pour créer le nom du fichier de sortie
-            $outputFileName = '../uploads/' . pathinfo($csvFileName, PATHINFO_FILENAME) . 'Update.csv';
+        // Appliquer les filtres
+        $filteredContent = CsvFilter::applyFilters($csvContent);
 
-            // Enregistrer le fichier filtré
-            file_put_contents($outputFileName, $filteredContent);
+        // Modifiez la ligne pour créer le nom du fichier de sortie
+        $outputFileName = 'uploads/' . pathinfo($csvFileName, PATHINFO_FILENAME) . 'Update.csv';
 
-            // Télécharger le fichier généré
-            header('Content-Type: application/csv');
-            header('Content-Disposition: attachment; filename="' . basename($outputFileName) . '"');
-            readfile($outputFileName);
-            exit;
-        }
-        
-        return array('success' => false, 'error' => 'Les filtres n\'ont pas été appliqués.');
+        // Enregistrez le fichier filtré
+        file_put_contents($outputFileName, $filteredContent);
+
+        // Affichez un message de débogage pour vérifier le nom du fichier de sortie
+        echo "Fichier de sortie : " . $outputFileName . "<br>";
+
+        // Téléchargez le fichier généré
+        header('Content-Type: application/csv');
+        header('Content-Disposition: attachment; filename="' . basename($outputFileName) . '"');
+        readfile($outputFileName);
+        exit;
     }
+
+    return array('success' => false, 'error' => 'Les filtres n\'ont pas été appliqués.');
+}
 }
 ?>

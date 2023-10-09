@@ -6,7 +6,20 @@ $page = new MainPage();
 $headers = [];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $page->processFileUpload();
+    if (isset($_POST['uploadCsv'])) {
+        // Le bouton "Générer le fichier" a été soumis
+        $csvFileName = $page->processFileUpload();
+        if ($csvFileName) {
+        }
+    } elseif (isset($_POST['applyFilters'])) {
+        // Le bouton "Télécharger le CSV" a été soumis
+        if (isset($_POST['csvFileName'])) {
+            $csvFileName = $_POST['csvFileName'];
+            $page->loadDownload($csvFileName);
+        } else {
+            echo "Le nom du fichier CSV n'est pas défini.";
+        }
+    }
 
     if (isset($_SESSION['csvContent'])) {
         $csvContent = $_SESSION['csvContent'];
@@ -18,6 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
