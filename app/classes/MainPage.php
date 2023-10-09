@@ -55,7 +55,7 @@ class MainPage {
         echo '<div class="row">
             <div class="col-md-12">
                 <input type="hidden" name="csvFileName" value="' . $fileName . '">
-                <button type="submit" class="btn btn-primary" name="applyFilters">Télécharger le CSV</button>
+                <button type="submit" class="btn btn-primary" name="applyFiltersButton">Télécharger le CSV</button>
             </div>
         </div>';
 

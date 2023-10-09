@@ -1,5 +1,6 @@
 <?php
 require_once('classes/MainPage.php');
+require_once('classes/CsvFilter.php');
 
 $page = new MainPage();
 
@@ -11,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $csvFileName = $page->processFileUpload();
         if ($csvFileName) {
         }
-    } elseif (isset($_POST['applyFilters'])) {
+    } elseif (isset($_POST['applyFiltersButton'])) {
         // Le bouton "Télécharger le CSV" a été soumis
         if (isset($_POST['csvFileName'])) {
             $csvFileName = $_POST['csvFileName'];
