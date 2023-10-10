@@ -9,7 +9,7 @@ class CsvFilter {
                 $filterType = $filterTypes[$filterIndex];
                 $filterValue = $filterValues[$filterIndex];
 
-                $filteredContent = self::applyFilter($filteredContent, $filterType, $filterValue);
+                $filteredContent = self::applyFilter($filteredContent, $filterType, $filterValue, $filterIndex);
             }
 
             return $filteredContent;
@@ -18,7 +18,7 @@ class CsvFilter {
         return $csvContent;
     }
 
-    private static function applyFilter($csvContent, $filterType, $filterValue) {
+    private static function applyFilter($csvContent, $filterType, $filterValue, $filterIndex) {
         // Vérifiez si les valeurs du formulaire sont définies
         if (!isset($_POST['applyFilters']) || !isset($filterValue)) {
             return $csvContent;
@@ -32,7 +32,7 @@ class CsvFilter {
                 // Filtre pour les valeurs supérieures
                 foreach ($lines as $line) {
                     $values = explode(",", $line);
-                    if (isset($values[0]) && floatval($values[0]) > floatval($filterValue)) {
+                    if (isset($values[$filterIndex]) && floatval($values[$filterIndex]) > floatval($filterValue)) {
                         $filteredContent .= $line . "\n";
                     }
                 }
@@ -42,7 +42,7 @@ class CsvFilter {
                 // Filtre pour les valeurs inférieures
                 foreach ($lines as $line) {
                     $values = explode(",", $line);
-                    if (isset($values[0]) && floatval($values[0]) < floatval($filterValue)) {
+                    if (isset($values[$filterIndex]) && floatval($values[$filterIndex]) < floatval($filterValue)) {
                         $filteredContent .= $line . "\n";
                     }
                 }
@@ -52,7 +52,7 @@ class CsvFilter {
                 // Filtre pour les valeurs supérieures ou égales
                 foreach ($lines as $line) {
                     $values = explode(",", $line);
-                    if (isset($values[0]) && floatval($values[0]) >= floatval($filterValue)) {
+                    if (isset($values[$filterIndex]) && floatval($values[$filterIndex]) >= floatval($filterValue)) {
                         $filteredContent .= $line . "\n";
                     }
                 }
@@ -62,7 +62,7 @@ class CsvFilter {
                 // Filtre pour les valeurs inférieures ou égales
                 foreach ($lines as $line) {
                     $values = explode(",", $line);
-                    if (isset($values[0]) && floatval($values[0]) <= floatval($filterValue)) {
+                    if (isset($values[$filterIndex]) && floatval($values[$filterIndex]) <= floatval($filterValue)) {
                         $filteredContent .= $line . "\n";
                     }
                 }
@@ -72,7 +72,7 @@ class CsvFilter {
                 // Filtre pour les valeurs différentes
                 foreach ($lines as $line) {
                     $values = explode(",", $line);
-                    if (isset($values[0]) && $values[0] !== $filterValue) {
+                    if (isset($values[$filterIndex]) && $values[$filterIndex] !== $filterValue) {
                         $filteredContent .= $line . "\n";
                     }
                 }
@@ -82,7 +82,7 @@ class CsvFilter {
                 // Filtre pour les valeurs qui commencent par
                 foreach ($lines as $line) {
                     $values = explode(",", $line);
-                    if (isset($values[0]) && strpos($values[0], $filterValue) === 0) {
+                    if (isset($values[$filterIndex]) && strpos($values[$filterIndex], $filterValue) === 0) {
                         $filteredContent .= $line . "\n";
                     }
                 }

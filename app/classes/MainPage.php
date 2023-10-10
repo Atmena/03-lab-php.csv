@@ -108,7 +108,6 @@ class MainPage {
             
             // Vérifiez si les filtres ont été appliqués
             if (isset($_POST['applyFilters']) && !empty($_POST['applyFilters'])) {
-
                 // Appel de la méthode pour traiter le téléchargement
                 $result = $downloadCsv->processDownload($csvFileName, $_POST['applyFilters']);
             } else {
