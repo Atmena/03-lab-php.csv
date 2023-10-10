@@ -10,7 +10,7 @@ class MainPage {
             </div>
             <button type="submit" class="btn btn-primary" name="uploadCsv">Générer le fichier</button>
         </form>';
-    
+
         // Ajoutez la fonction loadCSV() ici
         echo '<script>
             function loadCSV() {
@@ -19,7 +19,7 @@ class MainPage {
             }
         </script>';
     }
-    
+
     public function generateFilters(array $headers, $fileName) {
         echo '<div id="filtersContainer" class="container mt-4 flex-column">';
         
@@ -29,10 +29,12 @@ class MainPage {
         // Ouverture du formulaire
         echo '<form action="index.php" method="post">';
     
+        $i = 0;
+
         foreach ($headers as $header) {
             echo '<div class="row mb-3">
                 <div class="col-md-6">
-                    <input type="checkbox" id="checkFilter' . $header . '" name="applyFilters[' . $header . ']" value="1">
+                    <input type="checkbox" id="checkFilter' . $header . '" name="applyFilters[]" value="' . $i . '">
                     <label for="checkFilter' . $header . '">' . $header . ' :</label>    
                 </div>
                 <div class="col-md-3">
@@ -49,6 +51,7 @@ class MainPage {
                     <input type="text" class="form-control" id="filterValue' . $header . '" name="filterValues[]">
                 </div>
             </div>';
+            $i++;
         }
     
         // Ajoutez le bouton de téléchargement
@@ -58,11 +61,11 @@ class MainPage {
                 <button type="submit" class="btn btn-primary" name="applyFiltersButton">Télécharger le CSV</button>
             </div>
         </div>';
-
+    
         // Fermeture du formulaire
         echo '</form>
             </div>';
-    }        
+    }
 
     public function processFileUpload() {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -102,9 +105,18 @@ class MainPage {
         if ($csvFileName) {
             // Créez une instance de DownloadCsv
             $downloadCsv = new DownloadCsv();
-        
-            // Appel de la méthode pour traiter le téléchargement
-            $result = $downloadCsv->processDownload($csvFileName, array('success' => true, 'error' => ''));
+            
+            // Vérifiez si les filtres ont été appliqués
+            if (isset($_POST['applyFilters']) && !empty($_POST['applyFilters'])) {
+
+                var_dump($_POST['applyFilters']);
+
+                // Appel de la méthode pour traiter le téléchargement
+                $result = $downloadCsv->processDownload($csvFileName, $_POST['applyFilters']);
+            } else {
+                echo 'Aucun filtre n\'a été appliqué.';
+                return;
+            }
             
             if ($result['success']) {
                 // Redirigez ou affichez un message de succès, par exemple
