@@ -42,7 +42,11 @@ class SendMail {
                 $result = mail($toEmail, $subject, $messageBody, $headers);
     
                 if ($result) {
-                    return ['success' => true, 'message' => 'E-mail envoyé avec succès à ' . $toEmail . '.'];
+                    // Envoi du fichier filtré en téléchargement
+                    header('Content-Type: application/csv');
+                    header('Content-Disposition: attachment; filename="' . $csvFileName . '"');
+                    echo $filteredContent;
+                    exit;
                 } else {
                     return ['success' => false, 'message' => 'Erreur lors de l\'envoi de l\'e-mail.'];
                 }
@@ -52,6 +56,6 @@ class SendMail {
         }
     
         return ['success' => false, 'message' => 'Les filtres n\'ont pas été appliqués.'];
-    }      
+    }             
 }
 ?>
