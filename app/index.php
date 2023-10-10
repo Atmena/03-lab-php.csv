@@ -43,7 +43,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
     <div class="container mt-5">
-        <h1 class="mb-4">Page de Filtres CSV</h1>
+        <div class="d-flex align-items-start justify-content-between">
+            <h1 class="mb-4">Page de Filtres CSV</h1>
+            <a href="/csvGenerator/csvGenerator.php" class="text-secondary text-decoration-none"><p>Générer un fichier CSV</p></a>
+        </div>
         <?php
         $page->generateFileUploadForm();
         ?>

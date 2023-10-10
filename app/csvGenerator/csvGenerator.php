@@ -35,6 +35,7 @@ if (isset($_POST['generateCsv'])) {
 </head>
 <body>
     <div class="container mt-5">
+        <a href="../index.php" class="text-secondary text-decoration-none float-end">Retour</a>
         <div class="row">
             <div class="col-md-6 offset-md-3">
                 <div class="card">
