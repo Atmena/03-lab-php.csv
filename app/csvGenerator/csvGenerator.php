@@ -3,7 +3,7 @@ if (isset($_POST['generateCsv'])) {
     // Lire les fichiers texte de noms et prénoms
     $surname = file('nom.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
     $name = file('prenom.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-    $city = ['Dijon', 'Besançon', 'Belfort', 'Chalon-sur-Saône', 'Nevers', 'Auxerre', 'Mâcon', 'Montbéliard', 'Sens', 'Dole', ];
+    $city = ['Dijon', 'Besançon', 'Belfort', 'Chalon-sur-Saône', 'Nevers', 'Auxerre', 'Mâcon', 'Montbéliard', 'Sens', 'Dole'];
 
     // Créer le contenu du fichier CSV avec 200 lignes supplémentaires
     $csvContent = "Nom,Prénom,Âge,Ville\n";
@@ -46,6 +46,14 @@ if (isset($_POST['generateCsv'])) {
                                 <button type="submit" name="generateCsv" class="btn btn-primary">Générer le fichier CSV</button>
                             </div>
                         </form>
+                        <p class="mt-3">
+                            Ce bouton génère un fichier CSV contenant 200 lignes avec les données suivantes :
+                            <ul>
+                                <li>Une sélection aléatoire de 200 prénoms.</li>
+                                <li>Une sélection aléatoire de 200 noms.</li>
+                                <li>Une sélection aléatoire de villes parmi : 'Dijon', 'Besançon', 'Belfort', 'Chalon-sur-Saône', 'Nevers', 'Auxerre', 'Mâcon', 'Montbéliard', 'Sens', 'Dole'.</li>
+                            </ul>
+                        </p>
                     </div>
                 </div>
             </div>
