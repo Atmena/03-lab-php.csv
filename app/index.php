@@ -20,6 +20,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             echo "Le nom du fichier CSV n'est pas défini.";
         }
+    } elseif (isset($_POST['sendMailButton'])) {
+        // Le bouton "Envoyer par mail" a été soumis
+        $csvFileName = $_POST['csvFileName'];
+        $page->loadMail($csvFileName);
     }
 
     if (isset($_SESSION['csvContent'])) {
