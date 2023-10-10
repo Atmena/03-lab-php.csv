@@ -1,10 +1,11 @@
 <?php
 require_once('DownloadCsv.php');
+require_once('SendMail.php');
 
 class MainPage {
     public function generateFileUploadForm() {
-        echo '<form id="csvForm" enctype="multipart/form-data" action="index.php" method="POST">
-            <div class="form-group">
+        echo '<form id="csvForm" enctype="multipart/form-data" action="" method="POST">
+            <div class="form-group mb-3">
                 <label for="csvFile">Déposer un fichier CSV :</label>
                 <input type="file" class="form-control" id="csvFile" name="csvFile" accept=".csv" required onchange="loadCSV()">
             </div>
@@ -27,7 +28,7 @@ class MainPage {
         echo '<div class="row mb-3"><div class="col-md-12"><h4>Nom du fichier : ' . $fileName . '</h4></div></div>';
     
         // Ouverture du formulaire
-        echo '<form action="index.php" method="post">';
+        echo '<form action="" method="post">';
     
         $i = 0;
 
@@ -54,17 +55,28 @@ class MainPage {
             $i++;
         }
     
-        // Ajoutez le bouton de téléchargement
-        echo '<div class="row">
-            <div class="col-md-12">
+        // Ajout d'un bouton de téléchargement
+        echo '<div class="row d-flex justify-content-start mb-3">
+            <div class="col-md-2">
                 <input type="hidden" name="csvFileName" value="' . $fileName . '">
                 <button type="submit" class="btn btn-primary" name="applyFiltersButton">Télécharger le CSV</button>
+            </div>';
+
+        // Ajout d'une zone de texte pour récupérer l'e-mail du destinataire
+        echo '<div class="col-md-2">
+            <input type="email" class="form-control" placeholder="Insérer un mail" name="email">
+        </div>';
+
+        // Ajout du bouton "Envoyer par mail" à côté de l'input email
+        echo '<div class="col-md-2">
+                <button type="submit" class="btn btn-primary" name="sendMailButton">Envoyer par mail</button>
             </div>
         </div>';
-    
-        // Fermeture du formulaire
-        echo '</form>
-            </div>';
+
+        // Fermez le formulaire pour le téléchargement du CSV
+        echo '</form>';
+
+        echo '</div>';
     }
 
     public function processFileUpload() {
@@ -120,6 +132,31 @@ class MainPage {
                 header('Location: index.php?success=1');
             } else {
                 echo 'Erreur : ' . $result['error'];
+            }
+        }
+    }
+    
+    public function loadMail($csvFileName) {
+        if ($csvFileName) {
+            // Créer une instance de SendMail
+            $sendMail = new SendMail();
+    
+            // Sélection de l'adresse e-mail du destinataire depuis le formulaire
+            $toMail = isset($_POST['email']) ? $_POST['email'] : '';
+    
+            // Vérifiez si les filtres ont été appliqués
+            if (isset($_POST['applyFilters']) && !empty($_POST['applyFilters'])) {
+                // Appel de la méthode pour traiter l'envoi par e-mail
+                $result = $sendMail->processMail($toMail, $csvFileName, $_POST['applyFilters']);
+                
+                if ($result['success']) {
+                    // Affichez un message de succès si l'envoi a réussi
+                    echo 'E-mail envoyé avec succès à ' . $toMail . ' !';
+                } else {
+                    echo 'Erreur lors de l\'envoi de l\'e-mail : ' . $result['error'];
+                }
+            } else {
+                echo 'Aucun filtre n\'a été appliqué.';
             }
         }
     }    
