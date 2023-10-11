@@ -42,15 +42,9 @@ class SendMail {
                 $result = mail($toEmail, $subject, $messageBody, $headers);
 
                 if ($result) {
-                    // Envoi du fichier filtré en téléchargement
-                    header('Content-Type: application/csv');
-                    header('Content-Disposition: attachment; filename="' . $csvFileName . '"');
                     echo $filteredContent;
                     exit;
-                } else {
-                    // Envoi du fichier filtré en téléchargement
-                    header('Content-Type: application/csv');
-                    header('Content-Disposition: attachment; filename="' . $csvFileName . '"');
+                } else {;
                     error_log('Erreur lors de l\'envoi de l\'e-mail.');
                     return ['success' => false, 'message' => 'Erreur lors de l\'envoi de l\'e-mail.'];
                 }
