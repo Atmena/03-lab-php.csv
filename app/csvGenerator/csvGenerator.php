@@ -1,4 +1,9 @@
 <?php
+require_once('../classes/Router.php');
+
+$router = new Router();
+$router->route($_SERVER['REQUEST_URI']);
+
 if (isset($_POST['generateCsv'])) {
     // Lire les fichiers texte de noms et prénoms
     $surname = file('nom.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
@@ -35,7 +40,7 @@ if (isset($_POST['generateCsv'])) {
 </head>
 <body>
     <div class="container mt-5">
-        <a href="../index.php" class="text-secondary text-decoration-none float-end">Retour</a>
+        <a href="/" class="text-secondary text-decoration-none float-end">Retour</a>
         <div class="row">
             <div class="col-md-6 offset-md-3">
                 <div class="card">
@@ -51,7 +56,7 @@ if (isset($_POST['generateCsv'])) {
                             <ul>
                                 <li>Une sélection aléatoire de 200 prénoms.</li>
                                 <li>Une sélection aléatoire de 200 noms.</li>
-                                <li>Une sélection aléatoire de villes parmi : 'Dijon', 'Besançon', 'Belfort', 'Chalon-sur-Saône', 'Nevers', 'Auxerre', 'Mâcon', 'Montbéliard', 'Sens', 'Dole'.</li>
+                                <li>Une sélection aléatoire de villes parmi : "Dijon", "Besançon", "Belfort", "Chalon-sur-Saône", "Nevers", "Auxerre", "Mâcon", "Montbéliard", "Sens", "Dole".</li>
                             </ul>
                         </p>
                     </div>

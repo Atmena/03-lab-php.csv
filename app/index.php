@@ -1,6 +1,13 @@
 <?php
+define('BASE_DIR', __DIR__);
+
 require_once('classes/MainPage.php');
 require_once('classes/CsvFilter.php');
+
+require_once('./classes/Router.php');
+
+$router = new Router();
+$router->route($_SERVER['REQUEST_URI']);
 
 $page = new MainPage();
 
@@ -49,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="container mt-5">
         <div class="d-flex align-items-start justify-content-between">
             <h1 class="mb-4">Page de Filtres CSV</h1>
-            <a href="/csvGenerator/csvGenerator.php" class="text-secondary text-decoration-none"><p>Générer un fichier CSV</p></a>
+            <a href="/generator" class="text-secondary text-decoration-none"><p>Générer un fichier CSV</p></a>
         </div>
         <?php
         $page->generateFileUploadForm();
