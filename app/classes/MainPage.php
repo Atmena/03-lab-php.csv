@@ -141,19 +141,19 @@ class MainPage {
             // Créer une instance de SendMail
             $sendMail = new SendMail();
     
-            // Sélection de l'adresse e-mail du destinataire depuis le formulaire
-            $toMail = isset($_POST['email']) ? $_POST['email'] : '';
+            // Récupérer l'adresse e-mail du destinataire depuis le formulaire
+            $toEmail = isset($_POST['email']) ? $_POST['email'] : '';
     
-            // Vérifiez si les filtres ont été appliqués
+            // Vérifier si les filtres ont été appliqués
             if (isset($_POST['applyFilters']) && !empty($_POST['applyFilters'])) {
                 // Appel de la méthode pour traiter l'envoi par e-mail
-                $result = $sendMail->processMail($toMail, $csvFileName, $_POST['applyFilters']);
+                $result = $sendMail->processMail($toEmail, $csvFileName, $_POST['applyFilters'], $_POST['filterTypes'], $_POST['filterValues']);
                 
                 if ($result['success']) {
                     // Affichez un message de succès si l'envoi a réussi
-                    echo 'E-mail envoyé avec succès à ' . $toMail . ' !';
+                    echo 'E-mail envoyé avec succès à ' . $toEmail . ' !';
                 } else {
-                    echo 'Erreur lors de l\'envoi de l\'e-mail : ' . $result['error'];
+                    echo 'Erreur lors de l\'envoi de l\'e-mail : ' . $result['message'];
                 }
             } else {
                 echo 'Aucun filtre n\'a été appliqué.';

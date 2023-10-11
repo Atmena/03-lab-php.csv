@@ -40,7 +40,7 @@ class SendMail {
     
                 // Envoi de l'e-mail avec le contenu filtré en pièce jointe
                 $result = mail($toEmail, $subject, $messageBody, $headers);
-    
+
                 if ($result) {
                     // Envoi du fichier filtré en téléchargement
                     header('Content-Type: application/csv');
@@ -48,14 +48,20 @@ class SendMail {
                     echo $filteredContent;
                     exit;
                 } else {
+                    // Envoi du fichier filtré en téléchargement
+                    header('Content-Type: application/csv');
+                    header('Content-Disposition: attachment; filename="' . $csvFileName . '"');
+                    error_log('Erreur lors de l\'envoi de l\'e-mail.');
                     return ['success' => false, 'message' => 'Erreur lors de l\'envoi de l\'e-mail.'];
                 }
             } else {
+                error_log('Adresse e-mail du destinataire invalide: ' . $toEmail);
                 return ['success' => false, 'message' => 'Adresse e-mail du destinataire invalide.'];
             }
         }
     
+        error_log('Les filtres n\'ont pas été appliqués.');
         return ['success' => false, 'message' => 'Les filtres n\'ont pas été appliqués.'];
-    }             
+    }         
 }
 ?>
