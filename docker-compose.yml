@@ -1,0 +1,20 @@
+version: '3.8'
+services:
+  app:
+    build:
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    volumes:
+      - ./app:/var/www/html
+    networks:
+      - lab-phpcsv
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - "8025:8025"  # Port pour l'interface Web de MailHog
+      - "1025:1025"  # Port SMTP de MailHog
+    networks:
+      - lab-phpcsv
+networks:
+  lab-phpcsv:
