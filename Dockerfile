@@ -10,6 +10,8 @@ RUN go get github.com/mailhog/mhsendmail
 RUN cp /root/go/bin/mhsendmail /usr/bin/mhsendmail
 RUN echo 'sendmail_path = /usr/bin/mhsendmail --smtp-addr mailhog:1025' >> /usr/local/etc/php/php.ini
 
+RUN sed -i -e 's/memory_limit = .*/memory_limit = 2048M/' $PHP_INI_DIR/php.ini
+
 RUN a2enmod rewrite
 RUN docker-php-ext-install pdo pdo_mysql
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer

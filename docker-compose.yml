@@ -7,6 +7,7 @@ services:
       - "80:80"
     volumes:
       - ./app:/var/www/html
+      - ./site-available/000-default.conf:/etc/apache2/sites-available/000-default.conf
     networks:
       - lab-phpcsv
   mailhog:
