@@ -12,7 +12,7 @@ class MainPage {
             <button type="submit" class="btn btn-primary" name="uploadCsv">Générer le fichier</button>
         </form>';
 
-        // Ajoutez la fonction loadCSV() ici
+        // Ajoute la fonction loadCSV()
         echo '<script>
             function loadCSV() {
                 // Code pour gérer le chargement du fichier CSV ici
@@ -24,7 +24,7 @@ class MainPage {
     public function generateFilters(array $headers, $fileName) {
         echo '<div id="filtersContainer" class="container mt-4 flex-column">';
         
-        // Affichez le nom du fichier
+        // Affiche le nom du fichier
         echo '<div class="row mb-3"><div class="col-md-12"><h4>Nom du fichier : ' . $fileName . '</h4></div></div>';
     
         // Ouverture du formulaire
@@ -73,7 +73,7 @@ class MainPage {
             </div>
         </div>';
 
-        // Fermez le formulaire pour le téléchargement du CSV
+        // Ferme le formulaire pour le téléchargement du CSV
         echo '</form>';
 
         echo '</div>';
@@ -99,7 +99,7 @@ class MainPage {
                     }
         
                     if (move_uploaded_file($tmpFileName, $uploadPath)) {
-                        return $originalFileName; // Retournez le nom du fichier téléchargé
+                        return $originalFileName; // Retourne le nom du fichier téléchargé
                     } else {
                         echo "Erreur lors du chargement du fichier.";
                     }
@@ -115,10 +115,10 @@ class MainPage {
 
     public function loadDownload($csvFileName) {
         if ($csvFileName) {
-            // Créez une instance de DownloadCsv
+            // Créer une instance de DownloadCsv
             $downloadCsv = new DownloadCsv();
             
-            // Vérifiez si les filtres ont été appliqués
+            // Vérifie si les filtres ont été appliqués
             if (isset($_POST['applyFilters']) && !empty($_POST['applyFilters'])) {
                 // Appel de la méthode pour traiter le téléchargement
                 $result = $downloadCsv->processDownload($csvFileName, $_POST['applyFilters']);
@@ -128,7 +128,7 @@ class MainPage {
             }
             
             if ($result['success']) {
-                // Redirigez ou affichez un message de succès, par exemple
+                // Redirige ou affichez un message de succès, par exemple
                 header('Location: index.php?success=1');
             } else {
                 echo 'Erreur : ' . $result['error'];
